@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HĐ3 – Inspection Report: Test Case "Đổi Mật Khẩu"</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #22263a;
+    --border: #2e3347;
+    --accent: #00d4aa;
+    --accent2: #ff6b6b;
+    --accent3: #ffd166;
+    --accent4: #6c9bff;
+    --text: #e8eaf0;
+    --text-muted: #7a809e;
+    --pass: #00d4aa;
+    --fail: #ff6b6b;
+    --rework: #ffd166;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 32px 20px;
+  }
+
+  /* HEADER */
+  .header {
+    max-width: 1000px;
+    margin: 0 auto 40px;
+    padding: 32px 40px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--accent);
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(0,212,170,0.08) 0%, transparent 70%);
+  }
+  .badge {
+    display: inline-block;
+    background: rgba(0,212,170,0.12);
+    color: var(--accent);
+    border: 1px solid rgba(0,212,170,0.3);
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  h1 {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+    color: #fff;
+  }
+  h1 span { color: var(--accent); }
+  .subtitle { color: var(--text-muted); font-size: 14px; line-height: 1.6; }
+
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 24px;
+  }
+  .meta-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+  }
+  .meta-label { font-size: 10px; color: var(--text-muted); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+  .meta-value { font-size: 13px; font-weight: 600; color: var(--text); }
+
+  /* SECTIONS */
+  .section {
+    max-width: 1000px;
+    margin: 0 auto 28px;
+  }
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-title .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* ROLES */
+  .roles-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .role-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .role-icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .role-name { font-weight: 700; font-size: 13px; color: #fff; margin-bottom: 4px; }
+  .role-person { font-size: 12px; color: var(--accent); font-weight: 600; margin-bottom: 4px; }
+  .role-desc { font-size: 11.5px; color: var(--text-muted); line-height: 1.5; }
+
+  /* TEST CASE TABLE */
+  .tc-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  thead th {
+    background: var(--surface2);
+    color: var(--text-muted);
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--surface2); }
+  tbody td { padding: 10px 14px; vertical-align: top; line-height: 1.55; color: var(--text); }
+  td.tc-id { font-family: 'JetBrains Mono', monospace; color: var(--accent4); font-size: 11px; font-weight: 600; white-space: nowrap; }
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .tag-normal { background: rgba(108,155,255,0.15); color: var(--accent4); }
+  .tag-boundary { background: rgba(255,209,102,0.15); color: var(--accent3); }
+  .tag-error { background: rgba(255,107,107,0.15); color: var(--accent2); }
+
+  /* INSPECTION FINDINGS */
+  .finding-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .finding-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 18px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+  }
+  .finding-ref {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent4);
+  }
+  .severity {
+    padding: 2px 10px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .sev-major { background: rgba(255,107,107,0.2); color: #ff8e8e; border: 1px solid rgba(255,107,107,0.3); }
+  .sev-minor { background: rgba(255,209,102,0.2); color: var(--accent3); border: 1px solid rgba(255,209,102,0.3); }
+  .sev-suggestion { background: rgba(0,212,170,0.12); color: var(--accent); border: 1px solid rgba(0,212,170,0.2); }
+  .finding-body { padding: 14px 18px; }
+  .finding-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
+  .finding-text { font-size: 13px; line-height: 1.6; color: var(--text); margin-bottom: 12px; }
+  .finding-text:last-child { margin-bottom: 0; }
+  .finding-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .fix-text { font-size: 12.5px; color: var(--accent); line-height: 1.55; }
+
+  /* CHECKLIST */
+  .checklist-table {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .cl-row {
+    display: grid;
+    grid-template-columns: 40px 1fr 80px 80px;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+  }
+  .cl-row:last-child { border-bottom: none; }
+  .cl-row.header {
+    background: var(--surface2);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .cl-cell { padding: 10px 14px; font-size: 12.5px; line-height: 1.5; }
+  .cl-cell.num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); text-align: center; }
+  .cl-cell.verdict { text-align: center; font-weight: 700; font-size: 12px; }
+  .v-yes { color: var(--pass); }
+  .v-no { color: var(--fail); }
+  .v-partial { color: var(--rework); }
+  .group-label {
+    grid-column: 1 / -1;
+    padding: 8px 14px;
+    background: rgba(255,255,255,0.03);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* VERDICT */
+  .verdict-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 28px 32px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+  .verdict-icon {
+    font-size: 56px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .verdict-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  .verdict-result {
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 8px;
+  }
+  .verdict-rework { color: var(--rework); }
+  .verdict-desc { font-size: 13px; color: var(--text-muted); line-height: 1.7; max-width: 540px; }
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 24px;
+  }
+  .stat-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    text-align: center;
+  }
+  .stat-num {
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-lbl { font-size: 10px; color: var(--text-muted); font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+  .s-major { color: var(--accent2); }
+  .s-minor { color: var(--accent3); }
+  .s-suggest { color: var(--accent); }
+  .s-total { color: var(--accent4); }
+
+  /* DISCUSSION LOG */
+  .discussion {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0;
+    overflow: hidden;
+  }
+  .msg {
+    display: flex;
+    gap: 14px;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+  }
+  .msg:last-child { border-bottom: none; }
+  .msg-avatar {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .msg-meta { font-size: 11px; margin-bottom: 4px; }
+  .msg-role { font-weight: 700; color: var(--text); }
+  .msg-time { color: var(--text-muted); margin-left: 8px; }
+  .msg-text { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+  .msg-text strong { color: var(--text); }
+
+  .footer {
+    max-width: 1000px;
+    margin: 40px auto 0;
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-muted);
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="badge">HĐ3 · Mô phỏng Inspection · 60 phút</div>
+  <h1>Báo cáo Inspection: <span>Test Case "Đổi Mật Khẩu"</span></h1>
+  <p class="subtitle">Kịch bản: Rà soát một bản Test Case cho chức năng "Đổi mật khẩu" theo quy trình Inspection chính quy.<br>
+  Sử dụng Checklist đã xây dựng tại HĐ2 (Rà soát Test Case).</p>
+  <div class="meta-grid">
+    <div class="meta-item"><div class="meta-label">Tài liệu rà soát</div><div class="meta-value">TC_CHANGE_PASSWORD_v1.0</div></div>
+    <div class="meta-item"><div class="meta-label">Chức năng</div><div class="meta-value">Đổi mật khẩu (Change Password)</div></div>
+    <div class="meta-item"><div class="meta-label">Ngày rà soát</div><div class="meta-value">23/05/2026 · 14:00 – 15:00</div></div>
+    <div class="meta-item"><div class="meta-label">Phiên bản SRS</div><div class="meta-value">SRS_MOBILE_v2.3</div></div>
+    <div class="meta-item"><div class="meta-label">Hình thức</div><div class="meta-value">Formal Inspection (Peer Review)</div></div>
+    <div class="meta-item"><div class="meta-label">Số ca kiểm thử</div><div class="meta-value">8 Test Cases</div></div>
+  </div>
+</div>
+
+<!-- ROLES -->
+<div class="section">
+  <div class="section-title"><span class="dot"></span> Phân vai tham gia</div>
+  <div class="roles-grid">
+    <div class="role-card">
+      <div class="role-icon" style="background:rgba(0,212,170,0.12);">🧑‍⚖️</div>
+      <div>
+        <div class="role-name">Review Leader (Người điều phối)</div>
+        <div class="role-person">Trần Văn Đạt</div>
+        <div class="role-desc">Điều hành buổi rà soát, duy trì trật tự thảo luận, đảm bảo checklist được đi qua đầy đủ, ra quyết định cuối cùng (Pass / Fail / Rework).</div>
+      </div>
+    </div>
+    <div class="role-card">
+      <div class="role-icon" style="background:rgba(108,155,255,0.12);">✍️</div>
+      <div>
+        <div class="role-name">Author (Người viết Test Case)</div>
+        <div class="role-person">Trần Văn Đạt</div>
+        <div class="role-desc">Tác giả bản TC được rà soát. Trình bày mục đích thiết kế, giải thích khi có thắc mắc. Không được bào chữa khi lỗi được xác nhận.</div>
+      </div>
+    </div>
+    <div class="role-card">
+      <div class="role-icon" style="background:rgba(255,209,102,0.12);">📖</div>
+      <div>
+        <div class="role-name">Reader / Presenter (Người đọc)</div>
+        <div class="role-person">Nguyễn Tiến Huy</div>
+        <div class="role-desc">Đọc to từng bước TC, diễn giải lại nội dung theo cách hiểu của mình để nhóm phát hiện sai lệch. Không phải tác giả – quan điểm độc lập.</div>
+      </div>
+    </div>
+    <div class="role-card">
+      <div class="role-icon" style="background:rgba(255,107,107,0.12);">📝</div>
+      <div>
+        <div class="role-name">Scribe (Thư ký ghi lỗi)</div>
+        <div class="role-person">Phan Đức Thượng</div>
+        <div class="role-desc">Ghi chép chính xác tất cả lỗi, thảo luận và quyết định. Tổng hợp Inspection Report sau buổi rà soát. Không phán xét, chỉ ghi nhận.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TEST CASE DOCUMENT -->
+<div class="section">
+  <div class="section-title"><span class="dot" style="background:var(--accent4)"></span> Bản Test Case được rà soát (TC_CHANGE_PASSWORD_v1.0)</div>
+  <div class="tc-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>TC ID</th>
+          <th>Tiêu đề / Mục tiêu</th>
+          <th>Tiền điều kiện</th>
+          <th>Các bước thực hiện</th>
+          <th>Kết quả mong đợi</th>
+          <th>Loại</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="tc-id">TC_CP_01</td>
+          <td>Đổi mật khẩu thành công với dữ liệu hợp lệ</td>
+          <td>User đã đăng nhập; có mật khẩu hiện tại hợp lệ</td>
+          <td>1. Vào Cài đặt → Đổi mật khẩu<br>2. Nhập mật khẩu cũ đúng<br>3. Nhập mật khẩu mới (8 ký tự, có chữ hoa, số)<br>4. Xác nhận mật khẩu mới<br>5. Nhấn "Lưu"</td>
+          <td>Thông báo "Đổi mật khẩu thành công", chuyển về màn hình đăng nhập</td>
+          <td><span class="tag tag-normal">Normal</span></td>
+        </tr>
+        <tr>
+          <td class="tc-id">TC_CP_02</td>
+          <td>Nhập sai mật khẩu cũ</td>
+          <td>User đã đăng nhập</td>
+          <td>1. Vào Đổi mật khẩu<br>2. Nhập mật khẩu cũ sai<br>3. Nhập mật khẩu mới hợp lệ<br>4. Nhấn "Lưu"</td>
+          <td>Hiển thị lỗi "Mật khẩu cũ không đúng"</td>
+          <td><span class="tag tag-error">Error</span></td>
+        </tr>
+        <tr>
+          <td class="tc-id">TC_CP_03</td>
+          <td>Mật khẩu mới không khớp xác nhận</td>
+          <td>User đã đăng nhập</td>
+          <td>1. Nhập đúng mật khẩu cũ<br>2. Nhập mật khẩu mới: "Abc@1234"<br>3. Xác nhận: "Abc@1235"<br>4. Nhấn "Lưu"</td>
+          <td>Lỗi: "Mật khẩu xác nhận không khớp"</td>
+          <td><span class="tag tag-error">Error</span></td>
+        </tr>
+        <tr>
+          <td class="tc-id">TC_CP_04</td>
+          <td>Mật khẩu mới quá ngắn (dưới 8 ký tự)</td>
+          <td>User đã đăng nhập</td>
+          <td>1. Nhập đúng mật khẩu cũ<br>2. Nhập mật khẩu mới: "Ab1@"<br>3. Xác nhận: "Ab1@"<br>4. Nhấn "Lưu"</td>
+          <td>Thông báo lỗi</td>
+          <td><span class="tag tag-boundary">Boundary</span></td>
+        </tr>
+        <tr>
+          <td class="tc-id">TC_CP_05</td>
+          <td>Mật khẩu mới đúng 8 ký tự (biên dưới hợp lệ)</td>
+          <td>User đã đăng nhập</td>
+          <td>1. Nhập đúng mật khẩu cũ<br>2. Nhập mật khẩu mới: "Abc@1234" (8 ký tự)<br>3. Xác nhận giống bước 2<br>4. Nhấn "Lưu"</td>
+          <td>Đổi mật khẩu thành công</td>
+          <td><span class="tag tag-boundary">Boundary</span></td>
+        </tr>
+        <tr>
+          <td class="tc-id">TC_CP_06</td>
+          <td>Đổi sang mật khẩu trùng mật khẩu cũ</td>
+          <td>User đã đăng nhập</td>
+          <td>1. Nhập đúng mật khẩu cũ<br>2. Nhập mật khẩu mới = mật khẩu cũ<br>3. Nhấn "Lưu"</td>
+          <td>Không có thông báo lỗi rõ ràng được ghi trong TC</td>
+          <td><span class="tag tag-error">Error</span></td>
+        </tr>
+        <tr>
+          <td class="tc-id">TC_CP_07</td>
+          <td>Để trống mật khẩu mới</td>
+          <td>User đã đăng nhập</td>
+          <td>1. Nhập đúng mật khẩu cũ<br>2. Để trống ô "Mật khẩu mới"<br>3. Nhấn "Lưu"</td>
+          <td>Nút "Lưu" bị disable hoặc báo lỗi</td>
+          <td><span class="tag tag-error">Error</span></td>
+        </tr>
+        <tr>
+          <td class="tc-id">TC_CP_08</td>
+          <td>Kiểm tra giới hạn 5 lần nhập sai mật khẩu cũ</td>
+          <td>User đã đăng nhập</td>
+          <td>1. Nhập sai mật khẩu cũ 5 lần liên tiếp<br>2. Ghi nhận phản hồi sau mỗi lần</td>
+          <td>Sau 5 lần: tài khoản bị khóa tạm thời</td>
+          <td><span class="tag tag-boundary">Boundary</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- DISCUSSION LOG -->
+<div class="section">
+  <div class="section-title"><span class="dot" style="background:var(--accent3)"></span> Biên bản thảo luận (Inspection Meeting Log)</div>
+  <div class="discussion">
+    <div class="msg">
+      <div class="msg-avatar" style="background:rgba(0,212,170,0.12);">🧑‍⚖️</div>
+      <div>
+        <div class="msg-meta"><span class="msg-role">Trần Văn Đạt (Review Leader)</span><span class="msg-time">14:02</span></div>
+        <div class="msg-text">Bắt đầu phiên Inspection. Hôm nay chúng ta rà soát <strong>TC_CHANGE_PASSWORD_v1.0</strong> gồm 8 test case. Đề nghị Reader đọc từng TC, các thành viên đối chiếu Checklist HĐ2 và ghi nhận ngay khi phát hiện vấn đề.</div>
+      </div>
+    </div>
+    <div class="msg">
+      <div class="msg-avatar" style="background:rgba(108,155,255,0.12);">📖</div>
+      <div>
+        <div class="msg-meta"><span class="msg-role">Nguyễn Tiến Huy (Reader)</span><span class="msg-time">14:04</span></div>
+        <div class="msg-text">Đọc <strong>TC_CP_04</strong>: Kết quả mong đợi chỉ ghi "Thông báo lỗi" – không nêu rõ nội dung thông báo cụ thể là gì. Tôi không thể xác định điều kiện pass/fail.</div>
+      </div>
+    </div>
+    <div class="msg">
+      <div class="msg-avatar" style="background:rgba(255,107,107,0.12);">📝</div>
+      <div>
+        <div class="msg-meta"><span class="msg-role">Phan Đức Thượng (Scribe)</span><span class="msg-time">14:05</span></div>
+        <div class="msg-text">Ghi nhận: <strong>Lỗi #1</strong> – TC_CP_04, trường "Kết quả mong đợi" thiếu nội dung cụ thể. Loại: Major Defect (tiêu chí C3 Checklist).</div>
+      </div>
+    </div>
+    <div class="msg">
+      <div class="msg-avatar" style="background:rgba(108,155,255,0.12);">📖</div>
+      <div>
+        <div class="msg-meta"><span class="msg-role">Nguyễn Tiến Huy (Reader)</span><span class="msg-time">14:08</span></div>
+        <div class="msg-text">Đọc <strong>TC_CP_06</strong>: Kết quả mong đợi ghi "Không có thông báo lỗi rõ ràng được ghi trong TC" – đây trông giống như ghi chú chưa hoàn thiện của tác giả, không phải kết quả mong đợi.</div>
+      </div>
+    </div>
+    <div class="msg">
+      <div class="msg-avatar" style="background:rgba(255,209,102,0.12);">✍️</div>
+      <div>
+        <div class="msg-meta"><span class="msg-role">Trần Văn Đạt (Author)</span><span class="msg-time">14:09</span></div>
+        <div class="msg-text">Thừa nhận đây là phần chưa hoàn thiện. Tôi chưa xác nhận được yêu cầu từ SRS liệu hệ thống có cần chặn đổi mật khẩu trùng hay không.</div>
+      </div>
+    </div>
+    <div class="msg">
+      <div class="msg-avatar" style="background:rgba(0,212,170,0.12);">🧑‍⚖️</div>
+      <div>
+        <div class="msg-meta"><span class="msg-role">Trần Văn Đạt (Review Leader)</span><span class="msg-time">14:10</span></div>
+        <div class="msg-text">Đây là lỗi Major. TC_CP_06 cần được bổ sung sau khi Author tra cứu SRS phần "Password Policy". Ghi vào danh sách rework.</div>
+      </div>
+    </div>
+    <div class="msg">
+      <div class="msg-avatar" style="background:rgba(108,155,255,0.12);">📖</div>
+      <div>
+        <div class="msg-meta"><span class="msg-role">Nguyễn Tiến Huy (Reader)</span><span class="msg-time">14:14</span></div>
+        <div class="msg-text">Đọc <strong>TC_CP_08</strong>: Bước thực hiện chỉ có 2 bước, không nêu rõ thao tác cụ thể sau mỗi lần thử. Ai thực hiện bước reset giữa các lần? Không có bước "logout và login lại" hay "xóa cookie".</div>
+      </div>
+    </div>
+    <div class="msg">
+      <div class="msg-avatar" style="background:rgba(255,107,107,0.12);">📝</div>
+      <div>
+        <div class="msg-meta"><span class="msg-role">Phan Đức Thượng (Scribe)</span><span class="msg-time">14:15</span></div>
+        <div class="msg-text">Ghi nhận: <strong>Lỗi #3</strong> – TC_CP_08, các bước thực hiện không đủ chi tiết, thiếu điều kiện reset giữa các lần thử. Loại: Major Defect (tiêu chí C2).</div>
+      </div>
+    </div>
+    <div class="msg">
+      <div class="msg-avatar" style="background:rgba(108,155,255,0.12);">📖</div>
+      <div>
+        <div class="msg-meta"><span class="msg-role">Nguyễn Tiến Huy (Reader)</span><span class="msg-time">14:20</span></div>
+        <div class="msg-text">Kiểm tra tổng thể: Tất cả 8 TC đều <strong>không có mã lỗi (Error Code)</strong> liên kết với SRS. Ví dụ TC_CP_02 lỗi "Mật khẩu cũ không đúng" – không biết map với lỗi ERR-xxx nào.</div>
+      </div>
+    </div>
+    <div class="msg">
+      <div class="msg-avatar" style="background:rgba(0,212,170,0.12);">🧑‍⚖️</div>
+      <div>
+        <div class="msg-meta"><span class="msg-role">Trần Văn Đạt (Review Leader)</span><span class="msg-time">14:21</span></div>
+        <div class="msg-text">Đây là Minor Defect nhưng ảnh hưởng traceability. Ghi nhận như một lỗi hệ thống áp dụng cho toàn bộ bộ TC. Cần bổ sung cột "Mã lỗi / SRS Ref" vào template.</div>
+      </div>
+    </div>
+    <div class="msg">
+      <div class="msg-avatar" style="background:rgba(108,155,255,0.12);">📖</div>
+      <div>
+        <div class="msg-meta"><span class="msg-role">Nguyễn Tiến Huy (Reader)</span><span class="msg-time">14:28</span></div>
+        <div class="msg-text">Góp ý bổ sung: TC_CP_01 và TC_CP_05 có thể kiểm thử thêm trường hợp mật khẩu mới không có ký tự đặc biệt hoặc không có chữ hoa – hiện bộ TC chưa cover các điều kiện biên này của "độ phức tạp mật khẩu".</div>
+      </div>
+    </div>
+    <div class="msg">
+      <div class="msg-avatar" style="background:rgba(255,107,107,0.12);">📝</div>
+      <div>
+        <div class="msg-meta"><span class="msg-role">Phan Đức Thượng (Scribe)</span><span class="msg-time">14:29</span></div>
+        <div class="msg-text">Ghi nhận: <strong>Suggestion #1</strong> – Bổ sung TC kiểm thử các quy tắc password complexity (thiếu số, thiếu chữ hoa, thiếu ký tự đặc biệt). Loại: Suggestion (không bắt buộc sửa ngay).</div>
+      </div>
+    </div>
+    <div class="msg">
+      <div class="msg-avatar" style="background:rgba(0,212,170,0.12);">🧑‍⚖️</div>
+      <div>
+        <div class="msg-meta"><span class="msg-role">Trần Văn Đạt (Review Leader)</span><span class="msg-time">14:45</span></div>
+        <div class="msg-text">Tổng hợp: <strong>3 Major Defects, 1 Minor Defect, 1 Suggestion</strong>. Quyết định: <strong>REWORK</strong> – Author cần sửa các lỗi Major trước khi bộ TC được phê duyệt. Đặt deadline rework: 25/05/2026.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CHECKLIST -->
+<div class="section">
+  <div class="section-title"><span class="dot" style="background:var(--accent2)"></span> Checklist Rà soát Test Case (HĐ2) – Kết quả đánh giá</div>
+  <div class="checklist-table">
+    <div class="cl-row header">
+      <div class="cl-cell num">#</div>
+      <div class="cl-cell">Tiêu chí kiểm tra</div>
+      <div class="cl-cell verdict">Kết quả</div>
+      <div class="cl-cell verdict">Ghi chú</div>
+    </div>
+    <div class="cl-row"><div class="cl-cell group-label">Nhóm A – Độ bao phủ yêu cầu (Coverage)</div></div>
+    <div class="cl-row">
+      <div class="cl-cell num">A1</div>
+      <div class="cl-cell">Các TC có bao phủ đủ các luồng chính (Happy Path) của chức năng?</div>
+      <div class="cl-cell verdict v-yes">✓ Đạt</div>
+      <div class="cl-cell" style="font-size:11px;color:var(--text-muted);">TC_CP_01 cover luồng chính</div>
+    </div>
+    <div class="cl-row">
+      <div class="cl-cell num">A2</div>
+      <div class="cl-cell">Các TC có bao phủ các luồng lỗi quan trọng (Error Path)?</div>
+      <div class="cl-cell verdict v-yes">✓ Đạt</div>
+      <div class="cl-cell" style="font-size:11px;color:var(--text-muted);">TC_CP_02, 03, 07 cover lỗi</div>
+    </div>
+    <div class="cl-row">
+      <div class="cl-cell num">A3</div>
+      <div class="cl-cell">Các điều kiện biên (Boundary Value) có được kiểm thử đủ?</div>
+      <div class="cl-cell verdict v-partial">⚠ Một phần</div>
+      <div class="cl-cell" style="font-size:11px;color:var(--text-muted);">Thiếu biên về password complexity</div>
+    </div>
+    <div class="cl-row">
+      <div class="cl-cell num">A4</div>
+      <div class="cl-cell">Mỗi TC có liên kết với ít nhất một yêu cầu trong SRS không?</div>
+      <div class="cl-cell verdict v-no">✗ Không đạt</div>
+      <div class="cl-cell" style="font-size:11px;color:var(--accent2);">Thiếu mã SRS Ref / Error Code</div>
+    </div>
+    <div class="cl-row"><div class="cl-cell group-label">Nhóm B – Cấu trúc Test Case</div></div>
+    <div class="cl-row">
+      <div class="cl-cell num">B1</div>
+      <div class="cl-cell">Mỗi TC có đủ: Tiêu đề, Tiền điều kiện, Bước thực hiện, Kết quả mong đợi?</div>
+      <div class="cl-cell verdict v-partial">⚠ Một phần</div>
+      <div class="cl-cell" style="font-size:11px;color:var(--text-muted);">TC_CP_04, 06 thiếu KQMĐ rõ ràng</div>
+    </div>
+    <div class="cl-row">
+      <div class="cl-cell num">B2</div>
+      <div class="cl-cell">Các bước thực hiện có đủ chi tiết để tester không phải tự đoán?</div>
+      <div class="cl-cell verdict v-partial">⚠ Một phần</div>
+      <div class="cl-cell" style="font-size:11px;color:var(--accent2);">TC_CP_08 thiếu chi tiết bước lặp</div>
+    </div>
+    <div class="cl-row">
+      <div class="cl-cell num">B3</div>
+      <div class="cl-cell">Kết quả mong đợi có cụ thể, đo lường được (không mơ hồ)?</div>
+      <div class="cl-cell verdict v-no">✗ Không đạt</div>
+      <div class="cl-cell" style="font-size:11px;color:var(--accent2);">TC_CP_04 ghi "Thông báo lỗi" chung chung</div>
+    </div>
+    <div class="cl-row">
+      <div class="cl-cell num">B4</div>
+      <div class="cl-cell">Tiêu đề TC có mô tả đúng mục tiêu kiểm thử không?</div>
+      <div class="cl-cell verdict v-yes">✓ Đạt</div>
+      <div class="cl-cell" style="font-size:11px;color:var(--text-muted);">Tiêu đề rõ ràng</div>
+    </div>
+    <div class="cl-row"><div class="cl-cell group-label">Nhóm C – Chất lượng dữ liệu kiểm thử</div></div>
+    <div class="cl-row">
+      <div class="cl-cell num">C1</div>
+      <div class="cl-cell">Dữ liệu test có được chỉ định rõ ràng (không dùng "dữ liệu hợp lệ" chung chung)?</div>
+      <div class="cl-cell verdict v-partial">⚠ Một phần</div>
+      <div class="cl-cell" style="font-size:11px;color:var(--text-muted);">TC_CP_05 có ví dụ cụ thể; TC_CP_01 thì không</div>
+    </div>
+    <div class="cl-row">
+      <div class="cl-cell num">C2</div>
+      <div class="cl-cell">Các TC có độc lập với nhau (không phụ thuộc thứ tự chạy)?</div>
+      <div class="cl-cell verdict v-yes">✓ Đạt</div>
+      <div class="cl-cell" style="font-size:11px;color:var(--text-muted);">Có tiền điều kiện riêng</div>
+    </div>
+    <div class="cl-row">
+      <div class="cl-cell num">C3</div>
+      <div class="cl-cell">Mã lỗi / Error Code được tham chiếu trong kết quả mong đợi?</div>
+      <div class="cl-cell verdict v-no">✗ Không đạt</div>
+      <div class="cl-cell" style="font-size:11px;color:var(--accent2);">Toàn bộ bộ TC thiếu Error Code</div>
+    </div>
+  </div>
+</div>
+
+<!-- INSPECTION FINDINGS -->
+<div class="section">
+  <div class="section-title"><span class="dot" style="background:var(--accent2)"></span> Danh sách lỗi phát hiện (Defect Log)</div>
+
+  <div class="finding-card">
+    <div class="finding-header">
+      <span class="finding-ref">DEF-001 · TC_CP_04</span>
+      <span class="severity sev-major">MAJOR</span>
+    </div>
+    <div class="finding-body">
+      <div class="finding-grid">
+        <div>
+          <div class="finding-label">Vị trí</div>
+          <div class="finding-text">TC_CP_04 – Trường "Kết quả mong đợi"</div>
+          <div class="finding-label">Mô tả lỗi</div>
+          <div class="finding-text">Kết quả mong đợi chỉ ghi chung chung <em>"Thông báo lỗi"</em> mà không nêu rõ nội dung thông báo cụ thể, không đo lường được. Tester không biết phải kiểm tra thông báo nào để kết luận pass/fail.</div>
+        </div>
+        <div>
+          <div class="finding-label">Thuộc nhóm Checklist</div>
+          <div class="finding-text">B3 – Kết quả mong đợi phải cụ thể, đo lường được</div>
+          <div class="finding-label">Đề xuất sửa</div>
+          <div class="finding-text fix-text">Sửa thành: <em>"Hiển thị thông báo lỗi: 'Mật khẩu phải có ít nhất 8 ký tự'. Nút Lưu bị vô hiệu hóa. Không có thay đổi mật khẩu xảy ra."</em></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="finding-card">
+    <div class="finding-header">
+      <span class="finding-ref">DEF-002 · TC_CP_06</span>
+      <span class="severity sev-major">MAJOR</span>
+    </div>
+    <div class="finding-body">
+      <div class="finding-grid">
+        <div>
+          <div class="finding-label">Vị trí</div>
+          <div class="finding-text">TC_CP_06 – Trường "Kết quả mong đợi"</div>
+          <div class="finding-label">Mô tả lỗi</div>
+          <div class="finding-text">Nội dung ghi trong KQMĐ là <em>"Không có thông báo lỗi rõ ràng được ghi trong TC"</em> – đây là ghi chú dở dang của tác giả, không phải kết quả mong đợi thực sự. TC này chưa hoàn thiện và không thể dùng để kiểm thử.</div>
+        </div>
+        <div>
+          <div class="finding-label">Thuộc nhóm Checklist</div>
+          <div class="finding-text">B1 – TC phải đủ 4 thành phần; B3 – KQMĐ phải rõ ràng</div>
+          <div class="finding-label">Đề xuất sửa</div>
+          <div class="finding-text fix-text">Author cần tra cứu SRS "Password Policy" để xác định: hệ thống có cấm đổi sang mật khẩu trùng cũ không? Nếu có: KQMĐ = <em>"Lỗi: 'Mật khẩu mới không được trùng mật khẩu cũ'"</em>. Nếu không: <em>"Đổi mật khẩu thành công"</em>.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="finding-card">
+    <div class="finding-header">
+      <span class="finding-ref">DEF-003 · TC_CP_08</span>
+      <span class="severity sev-major">MAJOR</span>
+    </div>
+    <div class="finding-body">
+      <div class="finding-grid">
+        <div>
+          <div class="finding-label">Vị trí</div>
+          <div class="finding-text">TC_CP_08 – Trường "Các bước thực hiện"</div>
+          <div class="finding-label">Mô tả lỗi</div>
+          <div class="finding-text">Chỉ có 2 bước mà không nêu cụ thể thao tác giữa mỗi lần thử sai. Chưa rõ: (a) sau mỗi lần sai có cần nhấn OK/thoát không? (b) counter đếm sai theo session hay theo tài khoản? (c) điều kiện reset counter là gì?</div>
+        </div>
+        <div>
+          <div class="finding-label">Thuộc nhóm Checklist</div>
+          <div class="finding-text">B2 – Bước thực hiện phải đủ chi tiết</div>
+          <div class="finding-label">Đề xuất sửa</div>
+          <div class="finding-text fix-text">Mở rộng bước thực hiện thành 10 bước: lặp lại thao tác "nhập sai → nhấn Lưu → ghi nhận thông báo" x5 lần. Bổ sung tiêu chí: lần 1-4 hiện cảnh báo, lần 5 khóa tài khoản và hiển thị thông báo cụ thể.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="finding-card">
+    <div class="finding-header">
+      <span class="finding-ref">DEF-004 · Toàn bộ bộ TC</span>
+      <span class="severity sev-minor">MINOR</span>
+    </div>
+    <div class="finding-body">
+      <div class="finding-grid">
+        <div>
+          <div class="finding-label">Vị trí</div>
+          <div class="finding-text">TC_CP_01 đến TC_CP_08 – Template TC</div>
+          <div class="finding-label">Mô tả lỗi</div>
+          <div class="finding-text">Không có cột/trường "Mã lỗi SRS" hoặc "SRS Reference ID" trong toàn bộ bộ TC. Không thể truy xuất ngược từ TC về yêu cầu gốc (không đảm bảo traceability).</div>
+        </div>
+        <div>
+          <div class="finding-label">Thuộc nhóm Checklist</div>
+          <div class="finding-text">A4 – Mỗi TC cần liên kết với SRS; C3 – Cần có Error Code</div>
+          <div class="finding-label">Đề xuất sửa</div>
+          <div class="finding-text fix-text">Thêm cột "SRS Ref" vào template. Ví dụ: TC_CP_02 → SRS-UC-05 (Use Case Đổi mật khẩu), ERR-PW-01 (Mật khẩu cũ không đúng). Áp dụng nhất quán cho toàn bộ bộ TC.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="finding-card">
+    <div class="finding-header">
+      <span class="finding-ref">SUG-001 · Góp ý bổ sung TC</span>
+      <span class="severity sev-suggestion">SUGGESTION</span>
+    </div>
+    <div class="finding-body">
+      <div class="finding-grid">
+        <div>
+          <div class="finding-label">Vị trí</div>
+          <div class="finding-text">Phạm vi bao phủ tổng thể</div>
+          <div class="finding-label">Mô tả</div>
+          <div class="finding-text">Bộ TC hiện chưa có ca kiểm thử cho các quy tắc độ phức tạp mật khẩu: (a) không có chữ hoa, (b) không có số, (c) không có ký tự đặc biệt, (d) toàn ký tự trùng lặp.</div>
+        </div>
+        <div>
+          <div class="finding-label">Thuộc nhóm Checklist</div>
+          <div class="finding-text">A3 – Boundary Value Analysis chưa đủ</div>
+          <div class="finding-label">Đề xuất</div>
+          <div class="finding-text fix-text">Bổ sung 3-4 TC mới: TC_CP_09 (mật khẩu không có số), TC_CP_10 (không có chữ hoa), TC_CP_11 (không có ký tự đặc biệt). Không bắt buộc trong lần rework này nhưng nên có trước khi test thực tế.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- VERDICT -->
+<div class="section">
+  <div class="section-title"><span class="dot" style="background:var(--accent3)"></span> Kết luận Inspection (Inspection Report Summary)</div>
+  <div class="verdict-box">
+    <div class="verdict-icon">🔄</div>
+    <div>
+      <div class="verdict-title">Kết quả cuối cùng</div>
+      <div class="verdict-result verdict-rework">REWORK</div>
+      <div class="verdict-desc">
+        Bộ Test Case <strong>TC_CHANGE_PASSWORD_v1.0</strong> chưa đạt chất lượng để phê duyệt. Phát hiện <strong>3 lỗi Major</strong> làm cho bộ TC không thể sử dụng trực tiếp và <strong>1 lỗi Minor</strong> ảnh hưởng khả năng truy vết yêu cầu.<br><br>
+        Author (<strong>Trần Văn Đạt</strong>) cần sửa toàn bộ lỗi Major và Minor, sau đó nộp lại bản <strong>TC_CHANGE_PASSWORD_v1.1</strong> cho Review Leader xem xét trước <strong>25/05/2026</strong>. Không cần tổ chức phiên Inspection mới; Review Leader sẽ tự kiểm tra bản sửa đổi.
+      </div>
+    </div>
+  </div>
+  <div class="stat-row">
+    <div class="stat-card"><div class="stat-num s-major">3</div><div class="stat-lbl">Major Defects</div></div>
+    <div class="stat-card"><div class="stat-num s-minor">1</div><div class="stat-lbl">Minor Defects</div></div>
+    <div class="stat-card"><div class="stat-num s-suggest">1</div><div class="stat-lbl">Suggestions</div></div>
+    <div class="stat-card"><div class="stat-num s-total">8</div><div class="stat-lbl">TC rà soát</div></div>
+  </div>
+</div>
+
+<!-- SIGNATURES -->
+<div class="section">
+  <div class="section-title"><span class="dot"></span> Xác nhận tham gia</div>
+  <div class="tc-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Vai trò</th>
+          <th>Họ và tên</th>
+          <th>Chữ ký</th>
+          <th>Ghi chú</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Review Leader</td>
+          <td>Trần Văn Đạt</td>
+          <td style="font-family:'JetBrains Mono',monospace;color:var(--accent);font-style:italic;">T.V.Dat</td>
+          <td style="color:var(--text-muted);font-size:12px;">Phê duyệt báo cáo, ra quyết định REWORK</td>
+        </tr>
+        <tr>
+          <td>Author</td>
+          <td>Trần Văn Đạt</td>
+          <td style="font-family:'JetBrains Mono',monospace;color:var(--accent4);font-style:italic;">T.V.Dat</td>
+          <td style="color:var(--text-muted);font-size:12px;">Xác nhận nhận lỗi, cam kết sửa trước 25/05</td>
+        </tr>
+        <tr>
+          <td>Reader</td>
+          <td>Nguyễn Tiến Huy</td>
+          <td style="font-family:'JetBrains Mono',monospace;color:var(--accent3);font-style:italic;">N.T.Huy</td>
+          <td style="color:var(--text-muted);font-size:12px;">Xác nhận đã đọc và trình bày toàn bộ TC</td>
+        </tr>
+        <tr>
+          <td>Scribe</td>
+          <td>Phan Đức Thượng</td>
+          <td style="font-family:'JetBrains Mono',monospace;color:var(--accent2);font-style:italic;">P.D.Thuong</td>
+          <td style="color:var(--text-muted);font-size:12px;">Xác nhận biên bản ghi chép đầy đủ</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="footer">
+  Inspection Report · TC_CHANGE_PASSWORD_v1.0 · Môn Đảm Bảo Chất Lượng Phần Mềm – Tuần 3 · HĐ3
+</div>
+
+</body>
+</html>

@@ -1,0 +1,369 @@
+
+<h2 class="sr-only">Checklist rà soát đặc tả giao diện Mobile Banking – giao diện đầy đủ</h2>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --font-sans:Inter, "Segoe UI", sans-serif;
+  --blue50:#E6F1FB;
+  --blue100:#B5D4F4;
+  --blue600:#185FA5;
+  --blue800:#0C447C;
+  --teal50:#E1F5EE;
+  --teal600:#0F6E56;
+  --coral50:#FAECE7;
+  --coral600:#993C1D;
+  --green50:#EAF3DE;
+  --green600:#3B6D11;
+  --red50:#FCEBEB;
+  --red600:#A32D2D;
+  --amber50:#FAEEDA;
+  --amber600:#854F0B;
+  --bg-body:#081B33;
+  --bg-panel:rgba(255,255,255,0.96);
+  --bg-panel-soft:rgba(255,255,255,0.85);
+  --color-text-primary:#111827;
+  --color-text-secondary:#5B708C;
+  --color-border-tertiary:rgba(15,23,42,0.08);
+  --border-radius-md:14px;
+  --border-radius-lg:24px;
+}
+html{font-size:15px;background:radial-gradient(circle at top left, rgba(59,130,246,.15), transparent 28%),radial-gradient(circle at bottom right, rgba(96,165,250,.12), transparent 35%), linear-gradient(180deg,#07182f 0%,#0f2c56 100%);color:#fff;min-height:100%}
+body{font-family:var(--font-sans);font-size:14px;min-height:100vh;background:transparent;color:var(--color-text-primary)}
+
+.app-wrap{position:relative;padding:24px;min-height:100vh;background:linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02));}
+.app{width:min(1080px,100%);margin:0 auto;display:flex;flex-direction:column;gap:16px;background:var(--bg-panel);border-radius:32px;box-shadow:0 30px 80px rgba(2,22,56,0.24);overflow:hidden;border:1px solid rgba(255,255,255,0.26)}
+
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:22px 24px;background:rgba(255,255,255,.9);backdrop-filter:blur(12px);border-bottom:1px solid rgba(15,23,42,0.08)}
+.topbar-left{display:flex;align-items:center;gap:14px}
+.app-logo{width:44px;height:44px;border-radius:16px;background:linear-gradient(135deg,#2563EB,#0E4F91);display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;box-shadow:0 16px 35px rgba(13,76,161,0.25)}
+.app-name{font-size:17px;font-weight:700;color:#0F172A}
+.app-sub{font-size:12px;color:#475569;letter-spacing:.02em;margin-top:4px}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.pill{font-size:11px;font-weight:700;padding:6px 12px;border-radius:999px;background:#E5F0FF;color:#1D4ED8;border:1px solid rgba(59,130,246,.2);box-shadow:inset 0 1px 2px rgba(255,255,255,.6)}
+
+.progress-bar-wrap{padding:20px 24px;background:rgba(248,250,252,.9);border-bottom:1px solid rgba(15,23,42,0.06)}
+.progress-header{display:flex;justify-content:space-between;align-items:center;padding-bottom:10px}
+.progress-label{font-size:13px;color:#64748B}
+.progress-pct{font-size:14px;font-weight:700;color:#1D4ED8}
+.progress-track{height:10px;background:rgba(15,23,42,0.05);border-radius:999px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#2563EB,#1D4ED8);border-radius:999px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+
+.stat-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;padding:16px 24px;background:transparent}
+.stat-card{background:#fff;border:1px solid rgba(15,23,42,0.06);border-radius:22px;padding:16px;box-shadow:0 15px 35px rgba(15,23,42,0.05)}
+.stat-val{font-size:24px;font-weight:700;color:#0F172A;line-height:1.1}
+.stat-lbl{font-size:12px;color:#64748B;letter-spacing:.01em;margin-top:6px}
+.stat-bar{height:5px;border-radius:999px;margin-top:12px;box-shadow:inset 0 1px 4px rgba(15,23,42,0.08)}
+
+.body{padding:0 24px 20px;display:flex;flex-direction:column;gap:16px}
+
+.group-card{background:#fff;border:1px solid rgba(15,23,42,0.08);border-radius:28px;overflow:hidden;box-shadow:0 20px 45px rgba(15,23,42,0.06)}
+.group-head{display:flex;align-items:center;gap:14px;padding:18px 20px;cursor:pointer;user-select:none;transition:background .2s,transform .2s}
+.group-head:hover{background:rgba(59,130,246,.04)}
+.group-dot{width:44px;height:44px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;box-shadow:0 10px 22px rgba(15,23,42,0.08)}
+.group-meta{flex:1;min-width:0}
+.group-title{font-size:15px;font-weight:700;color:#0F172A}
+.group-subtitle{font-size:13px;color:#64748B;line-height:1.4;max-width:100%}
+.group-right{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.mini-ring{position:relative;width:44px;height:44px;flex-shrink:0}
+.mini-ring svg{transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:rgba(15,23,42,0.08);stroke-width:4}
+.ring-fg{fill:none;stroke-width:4;stroke-linecap:round;transition:stroke-dashoffset .5s cubic-bezier(.4,0,.2,1)}
+.ring-txt{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#0F172A}
+.chev{font-size:17px;color:#94A3B8;transition:transform .2s}
+
+.items-wrap{display:none;border-top:1px solid rgba(15,23,42,0.06)}
+.items-wrap.open{display:block}
+
+.item-row{display:flex;align-items:flex-start;gap:12px;padding:16px 20px;cursor:pointer;transition:background .18s,border-color .18s; border-bottom:1px solid rgba(15,23,42,0.06)}
+.item-row:last-child{border-bottom:none}
+.item-row:hover{background:rgba(59,130,246,.04)}
+.checkbox{width:20px;height:20px;border-radius:8px;border:1.5px solid rgba(15,23,42,0.15);flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;transition:all .18s}
+.checkbox.on{background:linear-gradient(135deg,#2563EB,#1D4ED8);border-color:transparent}
+.checkbox.on::after{content:'';display:block;width:6px;height:11px;border:2px solid #fff;border-top:none;border-left:none;transform:rotate(42deg) translate(-1.5px,-1px)}
+.item-body{flex:1;min-width:0}
+.item-text{font-size:14px;color:#0F172A;line-height:1.6}
+.item-text.done{color:#64748B;text-decoration:line-through}
+.item-meta{display:flex;align-items:center;gap:8px;margin-top:8px}
+.badge{font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px}
+.b-high{background:rgba(255,230,230,.92);color:#B91C1C}
+.b-med{background:rgba(255,245,217,.92);color:#B45309}
+.b-low{background:rgba(236,253,245,.92);color:#166534}
+
+.footer-actions{padding:18px 24px;display:flex;gap:12px;background:rgba(255,255,255,.92);border-top:1px solid rgba(15,23,42,0.06)}
+.btn-reset{flex:1;padding:12px;font-size:14px;border-radius:18px;border:1px solid rgba(15,23,42,0.12);background:transparent;color:#475569;cursor:pointer;transition:all .18s}
+.btn-reset:hover{background:rgba(15,23,42,.04)}
+.btn-export{flex:2;padding:12px;font-size:14px;font-weight:700;border-radius:18px;border:1px solid #2563EB;background:linear-gradient(135deg,#2563EB,#1E40AF);color:#fff;cursor:pointer;transition:transform .18s,box-shadow .18s}
+.btn-export:hover{transform:translateY(-1px);box-shadow:0 15px 30px rgba(37,99,235,0.25)}
+
+.empty-state{text-align:center;padding:28px 20px;color:#475569;font-size:14px}
+.toast{position:absolute;left:50%;transform:translateX(-50%) translateY(10px);bottom:70px;background:rgba(15,23,42,.95);color:#fff;font-size:13px;padding:10px 18px;border-radius:999px;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+
+<div class="app-wrap">
+<div class="app">
+
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="app-logo">✓</div>
+    <div>
+      <div class="app-name">Review Checklist</div>
+      <div class="app-sub">Mobile Banking UI – Tuần 3</div>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <div class="pill">📄 HĐ2</div>
+  </div>
+</div>
+
+<div class="progress-bar-wrap">
+  <div class="progress-header">
+    <span class="progress-label">Tiến độ rà soát</span>
+    <span class="progress-pct" id="pct-txt">0 / 23 tiêu chí</span>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="main-fill" style="width:0%"></div></div>
+</div>
+
+<div class="stat-row">
+  <div class="stat-card">
+    <div class="stat-val" id="s-total">23</div>
+    <div class="stat-lbl">📋 Tổng tiêu chí</div>
+    <div class="stat-bar" style="background:var(--color-border-tertiary)"></div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-val" id="s-done">0</div>
+    <div class="stat-lbl">✔️ Đã kiểm tra</div>
+    <div class="stat-bar" id="done-bar" style="background:var(--blue600);width:0%"></div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-val" id="s-high">0</div>
+    <div class="stat-lbl">⚠️ Quan trọng còn lại</div>
+    <div class="stat-bar" id="high-bar" style="background:var(--red600)"></div>
+  </div>
+</div>
+
+<div class="body" id="body"></div>
+
+<div class="footer-actions">
+  <button class="btn-reset" id="btn-reset"><i class="ti ti-refresh" style="font-size:13px;vertical-align:-1px;margin-right:4px" aria-hidden="true"></i>Làm lại</button>
+  <button class="btn-export" id="btn-export"><i class="ti ti-download" style="font-size:13px;vertical-align:-1px;margin-right:4px" aria-hidden="true"></i>Xuất kết quả ↗</button>
+</div>
+
+</div>
+<div class="toast" id="toast"></div>
+</div>
+
+<script>
+const groups = [
+  {
+    id:'g1',
+    icon:'🎨',
+    bg:'#E6F1FB', iconColor:'#185FA5', ringColor:'#185FA5',
+    title:'Tính thẩm mỹ & Thương hiệu',
+    subtitle:'Màu sắc, font, icon, layout tổng thể',
+    items:[
+      {t:'Màu sắc giao diện nhất quán với bộ nhận diện thương hiệu ngân hàng?',p:'high'},
+      {t:'Font chữ thống nhất toàn bộ ứng dụng, không lẫn lộn nhiều kiểu chữ?',p:'high'},
+      {t:'Phân cấp font rõ ràng: tiêu đề > nội dung > chú thích?',p:'med'},
+      {t:'Icon/hình ảnh không bị mờ hoặc vỡ hình trên màn hình Retina?',p:'med'},
+      {t:'Căn lề, padding/margin đồng đều và chuyên nghiệp trên toàn app?',p:'med'},
+      {t:'Hiệu ứng chuyển cảnh nhẹ nhàng, không gây rối mắt?',p:'low'},
+      {t:'Thiết kế phù hợp chuẩn mực tài chính – nghiêm túc, tạo niềm tin?',p:'high'},
+    ]
+  },
+  {
+    id:'g2',
+    icon:'📱',
+    bg:'#E1F5EE', iconColor:'#0F6E56', ringColor:'#0F6E56',
+    title:'Usability & Trải nghiệm (UX)',
+    subtitle:'Luồng thao tác, touch target, điều hướng',
+    items:[
+      {t:'Tab order theo luồng logic: trên xuống, trái sang phải?',p:'high'},
+      {t:'Nút hành động chính đặt ở vùng ngón tay cái dễ với?',p:'high'},
+      {t:'Touch target tối thiểu 44×44pt theo chuẩn Apple/Google?',p:'high'},
+      {t:'Nhãn (label) của các trường nhập liệu đủ mô tả, không cần đoán?',p:'med'},
+      {t:'Luồng chuyển tiền hoàn thành trong ≤ 5 bước?',p:'med'},
+      {t:'Không có màn hình "dead end" – luôn có nút Quay lại hoặc Thoát?',p:'high'},
+      {t:'Placeholder text gợi ý đúng định dạng (vd: "0912 345 678")?',p:'low'},
+      {t:'Bố cục nhất quán giữa các màn hình cùng chức năng?',p:'med'},
+    ]
+  },
+  {
+    id:'g3',
+    icon:'⚠️',
+    bg:'#FAECE7', iconColor:'#993C1D', ringColor:'#993C1D',
+    title:'Xử lý lỗi & Phản hồi hệ thống',
+    subtitle:'Validation, timeout, trạng thái loading/error',
+    items:[
+      {t:'Có xác nhận trước hành động không thể hoàn tác (Xóa, Chuyển tiền)?',p:'high'},
+      {t:'Thông báo lỗi rõ ràng, chỉ nguyên nhân và hướng khắc phục?',p:'high'},
+      {t:'Mất kết nối: hiển thị offline, không để ứng dụng treo?',p:'high'},
+      {t:'Timeout session cảnh báo trước khi hết hạn ít nhất 60 giây?',p:'high'},
+      {t:'Có loading spinner / skeleton screen khi chờ dữ liệu server?',p:'med'},
+      {t:'Validation on-blur (ngay khi rời trường), không chỉ khi submit?',p:'med'},
+      {t:'Mã lỗi kỹ thuật không hiển thị trực tiếp cho người dùng cuối?',p:'med'},
+      {t:'Sau lỗi OTP nhiều lần, có khóa tạm thời và thông báo rõ?',p:'high'},
+    ]
+  }
+];
+
+const checked = new Set();
+let expanded = new Set(['g1']);
+
+function totalItems(){return groups.reduce((a,g)=>a+g.items.length,0)}
+function totalHigh(){return groups.reduce((a,g)=>a+g.items.filter(i=>i.p==='high').length,0)}
+function doneHigh(){
+  let n=0;
+  groups.forEach(g=>g.items.forEach((it,i)=>{if(it.p==='high'&&checked.has(g.id+'-'+i))n++}));
+  return n;
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2000);
+}
+
+function updateStats(){
+  const total=totalItems(), done=checked.size, pct=Math.round(done/total*100);
+  const highTotal=totalHigh(), highDone=doneHigh(), highLeft=highTotal-highDone;
+  document.getElementById('main-fill').style.width=pct+'%';
+  document.getElementById('pct-txt').textContent=done+' / '+total+' tiêu chí';
+  document.getElementById('s-done').textContent=done;
+  document.getElementById('s-high').textContent=highLeft;
+  document.getElementById('done-bar').style.width=pct+'%';
+  document.getElementById('high-bar').style.width=(highTotal?Math.round(highLeft/highTotal*100):0)+'%';
+
+  groups.forEach(g=>{
+    const n=g.items.length;
+    const d=g.items.filter((_,i)=>checked.has(g.id+'-'+i)).length;
+    const p=n?Math.round(d/n*100):0;
+    const fg=document.getElementById('rfg-'+g.id);
+    const rt=document.getElementById('rtxt-'+g.id);
+    if(fg){
+      const circ=2*Math.PI*14;
+      fg.style.strokeDasharray=circ;
+      fg.style.strokeDashoffset=circ-(circ*p/100);
+    }
+    if(rt)rt.textContent=p+'%';
+    const sub=document.getElementById('gsub-'+g.id);
+    if(sub)sub.textContent=d+'/'+n+' mục – '+g.subtitle.split(',')[0];
+  });
+}
+
+function buildItem(g, item, idx){
+  const key=g.id+'-'+idx;
+  const row=document.createElement('div');
+  row.className='item-row';
+  const bClass='b-'+item.p;
+  const bLabel=item.p==='high'?'Quan trọng':item.p==='med'?'Trung bình':'Bình thường';
+  const icon=item.p==='high'?'⚠️':item.p==='med'?'ℹ️':'✔️';
+  const numLabel=idx+1;
+  row.innerHTML=`<div class="checkbox" id="cb-${key}"></div>
+  <div class="item-body">
+    <div class="item-text" id="it-${key}"><span style="color:var(--color-text-secondary);margin-right:5px;font-size:11px">${numLabel}.</span>${item.t}</div>
+    <div class="item-meta"><span class="badge ${bClass}">${icon}${bLabel}</span></div>
+  </div>`;
+  row.addEventListener('click',()=>{
+    if(checked.has(key))checked.delete(key);else checked.add(key);
+    const cb=document.getElementById('cb-'+key);
+    const it=document.getElementById('it-'+key);
+    if(checked.has(key)){cb.classList.add('on');it.classList.add('done')}
+    else{cb.classList.remove('on');it.classList.remove('done')}
+    updateStats();
+  });
+  return row;
+}
+
+function buildGroups(){
+  const body=document.getElementById('body');
+  body.innerHTML='';
+  groups.forEach(g=>{
+    const card=document.createElement('div');
+    card.className='group-card';
+
+    const circ=2*Math.PI*14;
+    const head=document.createElement('div');
+    head.className='group-head';
+    head.innerHTML=`
+      <div class="group-dot" style="background:${g.bg}">${g.icon}</div>
+      <div class="group-meta">
+        <div class="group-title">${g.title}</div>
+        <div class="group-subtitle" id="gsub-${g.id}">${g.subtitle}</div>
+      </div>
+      <div class="group-right">
+        <div class="mini-ring">
+          <svg width="36" height="36" viewBox="0 0 36 36">
+            <circle class="ring-bg" cx="18" cy="18" r="14"/>
+            <circle class="ring-fg" id="rfg-${g.id}" cx="18" cy="18" r="14"
+              stroke="${g.ringColor}"
+              style="stroke-dasharray:${circ};stroke-dashoffset:${circ}"/>
+          </svg>
+          <div class="ring-txt" id="rtxt-${g.id}">0%</div>
+        </div>
+        <i class="ti ti-chevron-down chev" id="chev-${g.id}" aria-hidden="true"></i>
+      </div>`;
+
+    const wrap=document.createElement('div');
+    wrap.className='items-wrap'+(expanded.has(g.id)?' open':'');
+    wrap.id='wrap-'+g.id;
+    g.items.forEach((item,i)=>wrap.appendChild(buildItem(g,item,i)));
+
+    head.addEventListener('click',()=>{
+      const isOpen=wrap.classList.contains('open');
+      wrap.classList.toggle('open',!isOpen);
+      document.getElementById('chev-'+g.id).style.transform=isOpen?'':'rotate(180deg)';
+      if(!isOpen)expanded.add(g.id);else expanded.delete(g.id);
+    });
+
+    if(expanded.has(g.id)){
+      document.getElementById&&setTimeout(()=>{
+        const c=document.getElementById('chev-'+g.id);
+        if(c)c.style.transform='rotate(180deg)';
+      },50);
+    }
+
+    card.appendChild(head);
+    card.appendChild(wrap);
+    body.appendChild(card);
+  });
+  setTimeout(()=>{
+    groups.forEach(g=>{
+      if(expanded.has(g.id)){
+        const c=document.getElementById('chev-'+g.id);
+        if(c)c.style.transform='rotate(180deg)';
+      }
+    });
+  },100);
+}
+
+document.getElementById('btn-reset').addEventListener('click',()=>{
+  checked.clear();
+  document.querySelectorAll('.checkbox').forEach(cb=>cb.classList.remove('on'));
+  document.querySelectorAll('.item-text').forEach(it=>it.classList.remove('done'));
+  updateStats();
+  showToast('Đã làm lại checklist');
+});
+
+document.getElementById('btn-export').addEventListener('click',()=>{
+  const total=totalItems(), done=checked.size, pct=Math.round(done/total*100);
+  const lines=['=== Kết quả rà soát Mobile Banking UI ===','Tiến độ: '+done+'/'+total+' ('+pct+'%)',''];
+  groups.forEach(g=>{
+    lines.push('## '+g.title);
+    g.items.forEach((item,i)=>{
+      const key=g.id+'-'+i;
+      lines.push((checked.has(key)?'[x] ':'[ ] ')+'('+item.p+') '+item.t);
+    });
+    lines.push('');
+  });
+  const blob=new Blob([lines.join('\n')],{type:'text/plain'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='checklist-mobile-banking.txt';a.click();
+  URL.revokeObjectURL(url);
+  showToast('Đã xuất file checklist.txt');
+});
+
+buildGroups();
+updateStats();
+</script>
